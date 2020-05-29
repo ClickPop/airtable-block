@@ -6,6 +6,7 @@
   "scripts": {
     "server": "nodemon app.js",
     "block": "cd ../block && block run",
+    "install-all": "cd ../block && npm install && cd ../server && npm install",
     "app": "concurrently \"npm run server\" \"npm run block\""
   },
   "keywords": [],
