@@ -6,7 +6,7 @@ export const Tweet = ({ tweet }) => {
     <Box
       key={tweet.id}
       style={{
-        borderStyle: 'solid',
+        border: '1px solid red',
         borderRadius: '15px',
         width: '250px',
         padding: '0, 15px',
