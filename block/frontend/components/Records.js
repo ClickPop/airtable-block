@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { useRecords } from '@airtable/blocks/ui';
+import { useRecords, Text, Box } from '@airtable/blocks/ui';
 
 export const Records = ({ table, field, state, setstate }) => {
   const records = field.id ? useRecords(table, { fields: [field.id] }) : null;
@@ -21,11 +21,19 @@ export const Records = ({ table, field, state, setstate }) => {
       {records &&
         records.map((record) => {
           return (
-            <div key={record}>
+            <Box
+              key={record.id}
+              display='fex'
+              alignItems='center'
+              justifyContent='center'
+              border='default'
+              backgroundColor='lightGray1'
+              padding={0}
+              borderRadius={5}>
               <a style={{ cursor: 'pointer' }} onClick={onClick}>
-                {record.getCellValueAsString(field.id)}
+                <Text>{record.getCellValueAsString(field.id)}</Text>
               </a>
-            </div>
+            </Box>
           );
         })}
     </Fragment>

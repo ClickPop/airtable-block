@@ -7,6 +7,7 @@ import {
 } from '@airtable/blocks/ui';
 import React, { Fragment, useState } from 'react';
 import { Records } from './components/Records';
+import { TwitterInfo } from './components/Twitter/TwitterInfo';
 
 function HelloWorldBlock() {
   const initialState = {
@@ -40,9 +41,7 @@ function HelloWorldBlock() {
           setstate={setstate}
         />
       )}
-      {state.displayTwitter && (
-        <Fragment>{JSON.stringify(state.twitterData)}</Fragment>
-      )}
+      {state.displayTwitter && <TwitterInfo state={state} />}
     </Fragment>
   );
 }
