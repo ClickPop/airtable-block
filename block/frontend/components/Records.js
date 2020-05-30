@@ -5,15 +5,16 @@ export const Records = ({ table, field, state, setstate }) => {
   const records = field.id ? useRecords(table, { fields: [field.id] }) : null;
 
   const onClick = async (e) => {
-    if (field.name !== 'twitter') return;
     const userRes = await fetch(
-      `http://localhost:5000/twitter?username=${e.target.innerHTML}`,
+      `http://localhost:5000/${field.name.toLowerCase()}?username=${
+        e.target.innerHTML
+      }`,
       {
         method: 'GET',
       }
     );
     const userData = await userRes.json();
-    setstate({ ...state, display: true, data: userData });
+    setstate({ display: true, data: userData });
   };
 
   return (
