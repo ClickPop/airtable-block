@@ -3,43 +3,58 @@ import { Box, Text, Heading } from '@airtable/blocks/ui';
 import { Tweet } from './Tweet';
 
 export const TwitterInfo = ({ state }) => {
-  const user = state.twitterData.user[0];
-  const tweets = state.twitterData.tweets;
+  const user = state.data.user[0];
+  const tweets = state.data.tweets;
 
   return (
     <Fragment
       style={{
         fontFamily: '"Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif',
-        fontSize: '15px'
+        fontSize: '15px',
       }}>
       <Box
         style={{
-          padding: '20px'
+          padding: '20px',
         }}>
         <Text
           style={{
             fontSize: '19px',
-            fontWeight: 'bold'
+            fontWeight: 'bold',
           }}>
           {user.name}
         </Text>
         <Text
           style={{
-            marginBottom: '10px'
+            marginBottom: '10px',
           }}>
-          <a href={'https://www.twitter.com/' + user.screen_name} target='_blank'>{user.screen_name}</a>
+          <a
+            href={'https://www.twitter.com/' + user.screen_name}
+            target='_blank'>
+            {user.screen_name}
+          </a>
         </Text>
-        <Text style={{
-          marginBottom: '10px'
+        <Text
+          style={{
+            marginBottom: '10px',
           }}>
           {user.description}
         </Text>
-        <Text style={{
-          marginBottom: '10px'
+        <Text
+          style={{
+            marginBottom: '10px',
           }}>
-          {user.location} {user.entities.url ? <a href={user.entities.url.urls[0].expanded_url}>{user.entities.url.urls[0].expanded_url}</a> : ''}
+          {user.location}{' '}
+          {user.entities.url ? (
+            <a href={user.entities.url.urls[0].expanded_url}>
+              {user.entities.url.urls[0].expanded_url}
+            </a>
+          ) : (
+            ''
+          )}
         </Text>
-        <Text><strong>{user.followers_count}</strong> Followers</Text>
+        <Text>
+          <strong>{user.followers_count}</strong> Followers
+        </Text>
       </Box>
       <Box>
         <Heading>Tweets</Heading>

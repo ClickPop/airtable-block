@@ -49,33 +49,45 @@ app.get('/twitter', async (req, res) => {
   }
 });
 
-app.all('*', async (req, res) => {
+app.get('/youtube', async (req, res) => {
   try {
-    if (req.method === 'OPTIONS') {
-      return res.send(200);
-    }
-    const headers = req.headers;
-    delete headers.host;
-    if (!headers['target-url'])
-      return res.status(420).json({ error: 'Invalid target-url header' });
-    const url = headers['target-url'];
-    const requestConfig = {
-      method: req.method.toLowerCase(),
-      url,
-    };
-    if (req.body.length > 0) {
-      requestConfig.data = req.body;
-    }
-    if (req.header('Authorization')) {
-      requestConfig.headers = headers;
-    }
-    const corsRes = await axios(requestConfig);
-    return res.send(corsRes.data);
+    const { username } = req.query;
+    const url = `https://www.googleapis.com/youtube/v3/channels?part=snippet,brandingSettings,statistics&key=${process.env.YOUTuBE_API_KEY}&forUsername=${username}`;
+    const response = await axios.get(url);
+    return res.json({ youtube: response.data });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ error: err });
   }
 });
+
+// app.all('*', async (req, res) => {
+//   try {
+//     if (req.method === 'OPTIONS') {
+//       return res.send(200);
+//     }
+//     const headers = req.headers;
+//     delete headers.host;
+//     if (!headers['target-url'])
+//       return res.status(420).json({ error: 'Invalid target-url header' });
+//     const url = headers['target-url'];
+//     const requestConfig = {
+//       method: req.method.toLowerCase(),
+//       url,
+//     };
+//     if (req.body.length > 0) {
+//       requestConfig.data = req.body;
+//     }
+//     if (req.header('Authorization')) {
+//       requestConfig.headers = headers;
+//     }
+//     const corsRes = await axios(requestConfig);
+//     return res.send(corsRes.data);
+//   } catch (err) {
+//     console.error(err);
+//     return res.status(500).json({ error: err });
+//   }
+// });
 
 app.listen(5000, () => {
   console.log('Server listening on port 5000');

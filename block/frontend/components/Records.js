@@ -13,7 +13,7 @@ export const Records = ({ table, field, state, setstate }) => {
       }
     );
     const userData = await userRes.json();
-    setstate({ ...state, displayTwitter: true, twitterData: userData });
+    setstate({ ...state, display: true, data: userData });
   };
 
   return (

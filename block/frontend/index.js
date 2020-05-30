@@ -4,6 +4,8 @@ import {
   useGlobalConfig,
   useBase,
   FieldPickerSynced,
+  TablePicker,
+  FieldPicker,
 } from '@airtable/blocks/ui';
 import React, { Fragment, useState } from 'react';
 import { Records } from './components/Records';
@@ -11,37 +13,41 @@ import { TwitterInfo } from './components/Twitter/TwitterInfo';
 
 function HelloWorldBlock() {
   const initialState = {
-    displayTwitter: false,
-    twitterData: {},
+    display: false,
+    data: {},
   };
-  const [state, setstate] = useState(initialState);
-  const base = useBase();
-  const config = useGlobalConfig();
-  const tableId = config.get('tableId');
-  const table = tableId ? base.getTableByIdIfExists(tableId) : null;
-  const fieldId = table ? config.get('fieldId') : null;
-  const field = fieldId ? table.getFieldByIdIfExists(fieldId) : null;
+  const [state, setState] = useState(initialState);
+  const [table, setTable] = useState(null);
+  const [field, setField] = useState(null);
+  // const base = useBase();
 
   return (
     <Fragment>
-      <TablePickerSynced
-        globalConfigKey='tableId'
-        onChange={() => setstate(initialState)}
-      />
-      <FieldPickerSynced
+      <TablePicker
         table={table}
-        globalConfigKey='fieldId'
-        onChange={() => setstate(initialState)}
+        onChange={(newTable) => {
+          setState(initialState);
+          setField(null);
+          setTable(newTable);
+        }}
+      />
+      <FieldPicker
+        table={table}
+        field={field}
+        onChange={(newField) => {
+          setState(initialState);
+          setField(newField);
+        }}
       />
       {field && (
         <Records
           table={table}
           field={field}
           state={state}
-          setstate={setstate}
+          setstate={setState}
         />
       )}
-      {state.displayTwitter && <TwitterInfo state={state} />}
+      {state.display && <TwitterInfo state={state} />}
     </Fragment>
   );
 }
