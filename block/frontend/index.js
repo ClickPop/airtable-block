@@ -3,6 +3,8 @@ import {
   useWatchable,
   useLoadable,
   useBase,
+  useRecordById,
+  useRecords,
 } from '@airtable/blocks/ui';
 import { cursor } from '@airtable/blocks';
 import React, { Fragment, useState } from 'react';
@@ -26,6 +28,8 @@ function HelloWorldBlock() {
   const fields = cursor.selectedFieldIds.map((fieldId) =>
     table.getFieldById(fieldId)
   );
+  const queryResult = table.selectRecords();
+  const records = useRecords(queryResult);
   return (
     <Fragment>
       {fields &&
@@ -33,7 +37,7 @@ function HelloWorldBlock() {
           <Field
             key={field.id}
             cursor={cursor}
-            table={table}
+            records={records}
             field={field}
             state={state}
             setstate={setState}
