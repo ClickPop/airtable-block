@@ -1,52 +1,45 @@
 import {
   initializeBlock,
-  TablePickerSynced,
-  useGlobalConfig,
+  useWatchable,
+  useLoadable,
   useBase,
-  FieldPickerSynced,
-  TablePicker,
-  FieldPicker,
 } from '@airtable/blocks/ui';
+import { cursor } from '@airtable/blocks';
 import React, { Fragment, useState } from 'react';
-import { Records } from './components/Records';
-import { DisplayInfo } from './components/DisplayInfo';
+import { Field } from './components/Field';
+// import { DisplayInfo } from './components/DisplayInfo';
 
 function HelloWorldBlock() {
+  const base = useBase();
   const initialState = {
     display: false,
     data: {},
   };
   const [state, setState] = useState(initialState);
-  const [table, setTable] = useState(null);
-  const [field, setField] = useState(null);
-
+  useLoadable(cursor);
+  useWatchable(cursor, [
+    'activeTableId',
+    'selectedFieldIds',
+    'selectedRecordIds',
+  ]);
+  const table = base.getTableById(cursor.activeTableId);
+  const fields = cursor.selectedFieldIds.map((fieldId) =>
+    table.getFieldById(fieldId)
+  );
   return (
     <Fragment>
-      <TablePicker
-        table={table}
-        onChange={(newTable) => {
-          setState(initialState);
-          setField(null);
-          setTable(newTable);
-        }}
-      />
-      <FieldPicker
-        table={table}
-        field={field}
-        onChange={(newField) => {
-          setState(initialState);
-          setField(newField);
-        }}
-      />
-      {field && (
-        <Records
-          table={table}
-          field={field}
-          state={state}
-          setstate={setState}
-        />
-      )}
-      {state.display && <DisplayInfo field={field} state={state} />}
+      {fields &&
+        fields.map((field) => (
+          <Field
+            key={field.id}
+            cursor={cursor}
+            table={table}
+            field={field}
+            state={state}
+            setstate={setState}
+          />
+        ))}
+      {/* {state.display && <DisplayInfo field={field} state={state} />} */}
     </Fragment>
   );
 }
