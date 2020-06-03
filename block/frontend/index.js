@@ -9,13 +9,14 @@ import {
 import { cursor } from '@airtable/blocks';
 import React, { Fragment, useState } from 'react';
 import { Field } from './components/Field';
-// import { DisplayInfo } from './components/DisplayInfo';
+import { DisplayInfo } from './components/DisplayInfo';
 
 function HelloWorldBlock() {
   const base = useBase();
   const initialState = {
     display: false,
     data: {},
+    fieldName: '',
   };
   const [state, setState] = useState(initialState);
   useLoadable(cursor);
@@ -34,15 +35,17 @@ function HelloWorldBlock() {
     <Fragment>
       {fields &&
         fields.map((field) => (
-          <Field
-            key={field.id}
-            cursor={cursor}
-            records={records}
-            field={field}
-            setState={setState}
-          />
+          <Fragment>
+            <Field
+              key={field.id}
+              cursor={cursor}
+              records={records}
+              field={field}
+              setState={setState}
+            />
+            {state.display && <DisplayInfo field={field} state={state} />}
+          </Fragment>
         ))}
-      {/* {state.display && <DisplayInfo field={field} state={state} />} */}
     </Fragment>
   );
 }

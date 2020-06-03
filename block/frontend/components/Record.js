@@ -12,7 +12,7 @@ export const Record = ({ record, field, setState }) => {
       }
     );
     const userData = await userRes.json();
-    setState({ display: true, data: userData });
+    setState({ display: true, data: userData, fieldName: field.name });
   };
 
   return (
