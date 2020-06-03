@@ -14,7 +14,7 @@ export const Field = ({ records, cursor, field, setState }) => {
               key={record.id}
               record={record}
               field={field}
-              setstate={setState}
+              setState={setState}
             />
           ))}
     </Fragment>

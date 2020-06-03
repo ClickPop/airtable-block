@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { Text, Box } from '@airtable/blocks/ui';
 
-export const Record = ({ record, field, setstate }) => {
+export const Record = ({ record, field, setState }) => {
   const onClick = async (e) => {
     const userRes = await fetch(
       `http://localhost:5000/${field.name.toLowerCase()}?username=${
@@ -12,7 +12,7 @@ export const Record = ({ record, field, setstate }) => {
       }
     );
     const userData = await userRes.json();
-    setstate({ display: true, data: userData });
+    setState({ display: true, data: userData });
   };
 
   return (

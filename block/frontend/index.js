@@ -39,8 +39,7 @@ function HelloWorldBlock() {
             cursor={cursor}
             records={records}
             field={field}
-            state={state}
-            setstate={setState}
+            setState={setState}
           />
         ))}
       {/* {state.display && <DisplayInfo field={field} state={state} />} */}
