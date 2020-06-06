@@ -49,19 +49,19 @@ export const TwitterInfo = ({ state }) => {
               {user.entities.url.urls[0].expanded_url}
             </a>
           ) : (
-            ''
-          )}
+              ''
+            )}
         </Text>
         <Text>
           <strong>{user.followers_count}</strong> Followers
         </Text>
       </Box>
-      <Box>
+      {tweets && <Box>
         <Heading>Tweets</Heading>
         {tweets.map((tweet) => (
           <Tweet key={tweet.id} tweet={tweet} />
         ))}
-      </Box>
+      </Box>}
     </Fragment>
   );
 };
