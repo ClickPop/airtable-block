@@ -38,6 +38,9 @@ app.get('/twitter', async (req, res) => {
     const userRes = await axios.get(request_data.url, {
       headers: oauth.toHeader(oauth.authorize(request_data)),
     });
+    if (userRes.data[0].protected) {
+      return res.json({ user: userRes.data, tweets: null });
+    }
     request_data.url = `https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=${username}&count=5&tweet_mode=extended`;
     const tweetsRes = await axios.get(request_data.url, {
       headers: oauth.toHeader(oauth.authorize(request_data)),
